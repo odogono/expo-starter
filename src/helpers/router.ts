@@ -11,14 +11,14 @@ export {
 
 // https://github.com/expo/router/discussions/495
 
-interface ExtendedRouter extends Router {
+type ExtendedRouter = {
   reset: <T extends string | object>(href: Href) => void;
-}
+} & Router
 
 export const router: ExtendedRouter = {
   ...expoRouter,
   reset: <T extends string | object>(route: Href) => {
-    if (router.canGoBack()) router.dismissAll();
+    if (router.canGoBack()) {router.dismissAll();}
     router.replace(route);
   }
 };

@@ -1,9 +1,5 @@
 import { useEffect, useRef } from 'react';
 
-import { createLog } from '@helpers/log';
-
-const log = createLog('');
-
 /**
  * Helps tracking the props changes made in a react functional component.
  *
@@ -25,19 +21,22 @@ const log = createLog('');
  */
 export const useRenderingTrace = (
   componentName: string,
-  propsAndStates: any,
+  propsAndStates: Record<string, unknown>,
   level: 'debug' | 'info' | 'log' = 'debug'
 ) => {
   const prev = useRef(propsAndStates);
 
   useEffect(() => {
-    const changedProps: { [key: string]: { old: any; new: any } } =
+    const changedProps: { [key: string]: { new: unknown; old: unknown } } =
       Object.entries(propsAndStates).reduce(
-        (property: any, [key, value]: [string, any]) => {
+        (
+          property: Record<string, { new: unknown; old: unknown }>,
+          [key, value]: [string, unknown]
+        ) => {
           if (prev.current[key] !== value) {
             property[key] = {
-              old: prev.current[key],
-              new: value
+              new: value,
+              old: prev.current[key]
             };
           }
           return property;
@@ -46,19 +45,10 @@ export const useRenderingTrace = (
       );
 
     if (Object.keys(changedProps).length > 0) {
-      // const table = [];
-      // for (const [key, value] of Object.entries(changedProps)) {
-      //   table.push({ key, new: value.new, old: value.old });
-      //   // table.push(`${key}: ${value.old} -> ${value.new}`);
-      // }
-
       // eslint-disable-next-line no-console
-      // log[level](`[${componentName}] Changed props:`);
-      // console.table(table);
-      // console.log('poop', table);
-      log[level](`[${componentName}] Changed props:`, changedProps);
+      console[level](`[${componentName}] Changed props:`, changedProps);
     }
 
     prev.current = propsAndStates;
-  });
+  }, [componentName, propsAndStates, level]);
 };

@@ -1,10 +1,8 @@
-/* eslint-disable no-underscore-dangle */
-
 // from https://github.com/MatiPl01/reanimated-utils/blob/main/packages/reanimated-utils/src/utils/animatedTimeout.ts
 
 import { makeMutable } from 'react-native-reanimated';
 
-export type AnyFunction = (...args: any[]) => any;
+export type AnyFunction = (...args: unknown[]) => unknown;
 
 const PENDING_TIMEOUTS = makeMutable<Record<string, boolean>>({});
 const TIMEOUT_ID = makeMutable(0);
@@ -13,7 +11,7 @@ export type AnimatedTimeoutID = number;
 
 const removeFromPendingTimeouts = (id: AnimatedTimeoutID): void => {
   'worklet';
-  PENDING_TIMEOUTS.modify((pendingTimeouts) => {
+  PENDING_TIMEOUTS.modify(pendingTimeouts => {
     'worklet';
     delete pendingTimeouts[id];
     return pendingTimeouts;

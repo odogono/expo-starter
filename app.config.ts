@@ -1,50 +1,50 @@
-import * as dotenv from 'dotenv';
+import { config } from 'dotenv';
 
 import { ConfigContext, ExpoConfig } from '@expo/config';
 
 const IS_DEV = process.env.APP_VARIANT === 'development';
 
-dotenv.config();
+config();
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
-  name: 'ODGN Expo Starter',
-  slug: 'odgn-expo-starter',
-  version: '1.0.0',
-  orientation: 'portrait',
-  icon: './assets/images/icon.png',
-  scheme: 'myapp',
-  userInterfaceStyle: 'automatic',
-  newArchEnabled: true,
-  ios: {
-    supportsTablet: true,
-    bundleIdentifier: 'net.odgn.expostarter'
-  },
   android: {
     adaptiveIcon: {
-      foregroundImage: './assets/images/adaptive-icon.png',
-      backgroundColor: '#ffffff'
+      backgroundColor: '#ffffff',
+      foregroundImage: './assets/images/adaptive-icon.png'
     },
     package: 'net.odgn.expostarter'
   },
-  web: {
-    bundler: 'metro',
-    output: 'static',
-    favicon: './assets/images/favicon.png'
+  icon: './assets/images/icon.png',
+  ios: {
+    bundleIdentifier: 'net.odgn.expostarter',
+    supportsTablet: true
   },
+  experiments: {
+    typedRoutes: true
+  },
+  name: 'ODGN Expo Starter',
+  newArchEnabled: true,
+  orientation: 'portrait',
   plugins: [
     'expo-router',
     [
       'expo-splash-screen',
       {
+        backgroundColor: '#ffffff',
         image: './assets/images/splash-icon.png',
         imageWidth: 200,
-        resizeMode: 'contain',
-        backgroundColor: '#ffffff'
+        resizeMode: 'contain'
       }
     ]
   ],
-  experiments: {
-    typedRoutes: true
+  scheme: 'myapp',
+  slug: 'odgn-expo-starter',
+  userInterfaceStyle: 'automatic',
+  version: '1.0.0',
+  web: {
+    bundler: 'metro',
+    favicon: './assets/images/favicon.png',
+    output: 'static'
   }
 });

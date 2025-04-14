@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-loop-func */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 
-type LogTypes =
+export type LogTypes =
   | 'assert'
   | 'log'
   | 'debug'
@@ -31,22 +30,33 @@ const logTypes: LogTypes[] = [
 
 const ignorePrefixTypes = ['group', 'groupCollapsed', 'groupEnd', 'table'];
 
-export type Logger = Record<LogTypes, (...args: any[]) => void>;
+export type LoggerBase = {
+  _isDbLog?: boolean;
+  _isDisabled: LogTypes[];
+  _prefix: string | null;
+};
+
+export type LogFn = (...args: any[]) => void;
+
+export type Logger = Record<LogTypes, LogFn> & LoggerBase;
 
 export const createLog = (
   prefix: string | null = null,
-  disabled: LogTypes[] = []
+  ...disabled: LogTypes[]
 ) => {
   const prefixTxt = prefix && prefix.length > 0 ? `[${prefix}]` : '';
 
   const result: Logger = {} as Logger;
+
+  result._prefix = prefix;
+  result._isDisabled = disabled;
 
   let logTime = Date.now();
 
   for (const logType of logTypes) {
     result[logType] = (...args: any[]) => {
       const now = Date.now();
-      if (now - logTime > 10000) {
+      if (now - logTime > 10_000) {
         logTime = now;
       }
       const delta = now - logTime;
@@ -61,7 +71,7 @@ export const createLog = (
         } else if (ignorePrefixTypes.includes(logType)) {
           console[logType](...args);
         } else {
-          console[logType](...[logPrefix, ...args]);
+          console[logType](logPrefix, ...args);
         }
       }
     };

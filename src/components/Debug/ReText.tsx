@@ -20,28 +20,26 @@ const styles = StyleSheet.create({
 
 Animated.addWhitelistedNativeProps({ text: true });
 
-interface TextProps {
-  text: SharedValue<string>;
+type TextProps = {
   style?: AnimatedProps<RNTextProps>['style'];
+  text: SharedValue<string>;
 }
 
 const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 
 export const ReText = (props: TextProps) => {
-  const { text, style } = { style: {}, ...props };
-  const animatedProps = useAnimatedProps(() => {
-    return {
+  const { style, text } = { style: {}, ...props };
+  const animatedProps = useAnimatedProps(() => ({
       text: text.value
       // Here we use any because the text prop is not available in the type
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } as any;
-  });
+    } as any));
   return (
     <AnimatedTextInput
-      underlineColorAndroid='transparent'
       editable={false}
-      value={text.value}
       style={[styles.baseStyle, style]}
+      underlineColorAndroid='transparent'
+      value={text.value}
       {...{ animatedProps }}
     />
   );

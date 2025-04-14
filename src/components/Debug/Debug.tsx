@@ -31,8 +31,7 @@ export const setDebugMsg5 = (msg: string) => {
   debugMsg5.value = msg;
 };
 
-export const Debug = () => {
-  return (
+export const Debug = () => (
     <View style={styles.container}>
       <ReText style={styles.debugText} text={debugMsg} />
       <ReText style={styles.debugText} text={debugMsg2} />
@@ -41,12 +40,11 @@ export const Debug = () => {
       <ReText style={styles.debugText} text={debugMsg5} />
     </View>
   );
-};
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
     bottom: 46,
+    position: 'absolute',
     width: '80%'
   },
   debugText: {
