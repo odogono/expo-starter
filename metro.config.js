@@ -1,9 +1,10 @@
 const { getDefaultConfig } = require('expo/metro-config');
-const { withNativeWind } = require('nativewind/metro');
 
 const config = getDefaultConfig(__dirname);
 
-// Configure NativeWind with Fast Refresh support
-module.exports = withNativeWind(config, {
-  input: './src/global.css'
-});
+// Add web-specific configuration
+config.resolver.sourceExts = process.env.RN_SRC_EXT
+  ? [...process.env.RN_SRC_EXT.split(','), ...config.resolver.sourceExts]
+  : config.resolver.sourceExts;
+
+module.exports = config;

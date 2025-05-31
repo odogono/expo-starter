@@ -1,6 +1,5 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
-import { addNetworkStateListener } from 'expo-network';
 import { createStore } from 'jotai';
 import { Provider as JotaiProvider } from 'jotai/react';
 import { useSyncQueries } from 'tanstack-query-dev-tools-expo-plugin';
@@ -12,7 +11,8 @@ import {
   onlineManager
 } from '@tanstack/react-query';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
-import { createSqlitePersister } from './storage';
+import { setupNetworkStateListener } from './network';
+import { createPersister } from './storage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,17 +26,17 @@ const queryClient = new QueryClient({
 // create the Jotai store
 export const store = createStore();
 
-onlineManager.setEventListener(setOnline => {
-  const eventSubscription = addNetworkStateListener(state => {
-    setOnline(!!state.isConnected);
-  });
-  return eventSubscription.remove;
-});
-
 export const StateProvider = ({ children }: { children: React.ReactNode }) => {
-  const persisterRef = useRef(createSqlitePersister());
+  const persisterRef = useRef(createPersister());
 
   useSyncQueries({ queryClient });
+
+  useEffect(() => {
+    const removeListener = setupNetworkStateListener();
+    return () => {
+      if (removeListener) removeListener();
+    };
+  }, []);
 
   return (
     <PersistQueryClientProvider

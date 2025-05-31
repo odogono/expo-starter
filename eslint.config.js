@@ -13,8 +13,7 @@ export default [
       'app.config.ts',
       'metro.config.js',
       'jest.setup.js',
-      'tailwind.config.js',
-      'src/global.css'
+      'tailwind.config.js'
     ]
   },
   {

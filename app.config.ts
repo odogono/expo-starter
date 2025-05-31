@@ -54,6 +54,11 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   web: {
     bundler: 'metro',
     favicon: './assets/images/favicon.png',
-    output: 'static'
+    output: 'static',
+    build: {
+      babel: {
+        include: ['@expo/vector-icons']
+      }
+    }
   }
 });
