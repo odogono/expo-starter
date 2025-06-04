@@ -1,7 +1,10 @@
 module.exports = function (api) {
   api.cache(true);
   return {
-    plugins: ['react-native-reanimated/plugin'],
+    plugins: [
+      '@babel/plugin-proposal-export-namespace-from',
+      'react-native-reanimated/plugin'
+    ],
     presets: ['babel-preset-expo']
   };
 };
