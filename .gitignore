@@ -57,3 +57,4 @@ android/settings.gradle
 # Keep important config files
 !android/app/src/main/res/values/strings.xml
 !ios/*/Info.plist
+.vscode/settings.json
