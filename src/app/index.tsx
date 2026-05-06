@@ -21,34 +21,34 @@ export default function Home() {
 }
 
 const styles = StyleSheet.create({
+  card: {
+    backgroundColor: '#dbeafe', // bg-blue-100 equivalent
+    borderRadius: 16, // rounded-2xl equivalent
+    boxShadow: '0px 2px 3.84px rgba(0, 0, 0, 0.25)',
+    elevation: 5, // shadow-lg equivalent for Android
+    padding: 32 // p-8 equivalent
+  },
   container: {
-    flex: 1,
-    backgroundColor: '#ffffff' // white
+    backgroundColor: '#ffffff', // white
+    flex: 1
   },
   content: {
-    flex: 1,
     alignItems: 'center',
+    flex: 1,
+    gap: 16, // space-y-4 equivalent
     justifyContent: 'center',
-    paddingHorizontal: 16, // px-4 equivalent
-    gap: 16 // space-y-4 equivalent
-  },
-  card: {
-    borderRadius: 16, // rounded-2xl equivalent
-    backgroundColor: '#dbeafe', // bg-blue-100 equivalent
-    padding: 32, // p-8 equivalent
-    boxShadow: '0px 2px 3.84px rgba(0, 0, 0, 0.25)',
-    elevation: 5 // shadow-lg equivalent for Android
-  },
-  title: {
-    textAlign: 'center',
-    fontSize: 36, // text-4xl equivalent
-    fontWeight: 'bold',
-    color: '#2563eb' // text-blue-600 equivalent
+    paddingHorizontal: 16 // px-4 equivalent
   },
   subtitle: {
-    marginTop: 8, // mt-2 equivalent
-    textAlign: 'center',
+    color: '#4b5563', // text-gray-600 equivalent
     fontSize: 18, // text-lg equivalent
-    color: '#4b5563' // text-gray-600 equivalent
+    marginTop: 8, // mt-2 equivalent
+    textAlign: 'center'
+  },
+  title: {
+    color: '#2563eb', // text-blue-600 equivalent
+    fontSize: 36, // text-4xl equivalent
+    fontWeight: 'bold',
+    textAlign: 'center'
   }
 });

@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useEffect, useState } from 'react';
+import { ReactNode } from 'react';
 
 import { INFINITY } from '@helpers/time';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -13,12 +13,10 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
   const queryClient = useQueryClient();
 
   const { data: theme } = useQuery({
+    gcTime: INFINITY,
+    queryFn: () => 'light' as Theme,
     queryKey: ['theme'],
-    queryFn: () => {
-      return 'light' as Theme;
-    },
-    staleTime: INFINITY,
-    gcTime: INFINITY
+    staleTime: INFINITY
   });
   const { mutate: setTheme } = useMutation({
     mutationFn: async (theme: Theme) => {

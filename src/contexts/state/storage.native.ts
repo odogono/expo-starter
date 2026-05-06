@@ -1,6 +1,6 @@
 import { Platform } from 'react-native';
 
-import { documentDirectory } from 'expo-file-system';
+import { Paths } from 'expo-file-system';
 import SuperJSON from 'superjson';
 
 import { IOS_DOCUMENT_PATH, Storage } from '@op-engineering/op-sqlite';
@@ -10,7 +10,7 @@ import {
 } from '@tanstack/react-query-persist-client';
 
 export const getDBPath = () =>
-  Platform.OS === 'ios' ? IOS_DOCUMENT_PATH : documentDirectory;
+  Platform.OS === 'ios' ? IOS_DOCUMENT_PATH : Paths.document.uri;
 
 export const createPersister = (key: string = 'reactQuery'): Persister => {
   const storage = new Storage({

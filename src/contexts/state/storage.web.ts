@@ -5,8 +5,7 @@ import {
   Persister
 } from '@tanstack/react-query-persist-client';
 
-export const createPersister = (key: string = 'reactQuery'): Persister => {
-  return {
+export const createPersister = (key: string = 'reactQuery'): Persister => ({
     persistClient: async (client: PersistedClient) => {
       localStorage.setItem(key, SuperJSON.stringify(client));
     },
@@ -17,5 +16,4 @@ export const createPersister = (key: string = 'reactQuery'): Persister => {
       const client = localStorage.getItem(key);
       return client ? SuperJSON.parse(client) : undefined;
     }
-  };
-};
+  });

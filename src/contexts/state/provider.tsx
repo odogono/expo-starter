@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 
 import { createStore } from 'jotai';
 import { Provider as JotaiProvider } from 'jotai/react';
@@ -7,8 +7,7 @@ import { useSyncQueries } from 'tanstack-query-dev-tools-expo-plugin';
 import { INFINITY, ONE_DAY } from '@helpers/time';
 import {
   QueryClient,
-  QueryClientProvider,
-  onlineManager
+  QueryClientProvider
 } from '@tanstack/react-query';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { setupNetworkStateListener } from './network';
@@ -27,14 +26,16 @@ const queryClient = new QueryClient({
 export const store = createStore();
 
 export const StateProvider = ({ children }: { children: React.ReactNode }) => {
-  const persisterRef = useRef(createPersister());
+  const [persister] = useState(createPersister);
 
   useSyncQueries({ queryClient });
 
   useEffect(() => {
     const removeListener = setupNetworkStateListener();
     return () => {
-      if (removeListener) removeListener();
+      if (removeListener) {
+        removeListener();
+      }
     };
   }, []);
 
@@ -42,7 +43,7 @@ export const StateProvider = ({ children }: { children: React.ReactNode }) => {
     <PersistQueryClientProvider
       client={queryClient}
       persistOptions={{
-        persister: persisterRef.current
+        persister
       }}
     >
       <QueryClientProvider client={queryClient}>

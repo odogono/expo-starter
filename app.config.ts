@@ -1,10 +1,10 @@
 import { config } from 'dotenv';
 
-import { ConfigContext, ExpoConfig } from '@expo/config';
+import type { ConfigContext, ExpoConfig } from '@expo/config';
 
 const IS_DEV = process.env.APP_VARIANT === 'development';
 
-config();
+config({ quiet: true });
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
@@ -21,13 +21,15 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     supportsTablet: true
   },
   experiments: {
+    reactCompiler: true,
     typedRoutes: true
   },
   name: 'ODGN Expo Starter',
-  newArchEnabled: true,
   orientation: 'portrait',
   plugins: [
+    'expo-font',
     'expo-router',
+    'expo-web-browser',
     [
       'expo-splash-screen',
       {
@@ -54,11 +56,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   web: {
     bundler: 'metro',
     favicon: './assets/images/favicon.png',
-    output: 'static',
-    build: {
-      babel: {
-        include: ['@expo/vector-icons']
-      }
-    }
+    output: 'static'
   }
 });
